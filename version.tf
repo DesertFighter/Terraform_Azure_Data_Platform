@@ -10,4 +10,12 @@ terraform {
       version = "~>3.0"
     }
   }
+  backend "azurerm" {
+    use_cli          = true
+    use_azuread_auth = true
+
+    storage_account_name = "sttfdataso30emil"
+    container_name       = "tfstate"
+    key                  = "data-platform-dev.tfstate"
+  }
 }
