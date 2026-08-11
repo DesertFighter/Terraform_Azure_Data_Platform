@@ -1,0 +1,5 @@
+subscription_id                = "976fc750-3dbd-4d0d-916a-729e0f4d6845"
+backend_resource_group_name    = "rg-terraform-state-data-platform"
+backend_location               = "West US"
+backend_storage_account_prefix = "sttfdata"
+backend_container_name         = "tfstate"
