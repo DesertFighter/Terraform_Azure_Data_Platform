@@ -30,3 +30,30 @@ variable "owner" {
   type        = string
   default     = "data-engineering"
 }
+variable "entra_groups" {
+  description = "Microsoft Entra ID security groups used by the data platform."
+  type = map(object({
+    display_name = string
+    description  = string
+  }))
+}
+
+variable "entra_users" {
+  description = "Microsoft Entra ID lab users and their group assignments."
+
+  type = map(object({
+    display_name  = string
+    mail_nickname = string
+    group_key     = string
+  }))
+}
+variable "entra_user_password" {
+  description = "Initial password used when creating the Terraform lab Entra ID users."
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = length(var.entra_user_password) >= 12
+    error_message = "entra_user_password must contain at least 12 characters."
+  }
+}
