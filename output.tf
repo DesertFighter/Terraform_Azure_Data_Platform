@@ -37,3 +37,14 @@ output "entra_user_ids" {
     key => user.object_id
   }
 }
+//Phase 6
+output "rbac_assignments" {
+  value = {
+    for key, assignment in azurerm_role_assignment.data_platform :
+    key => {
+      principal_id       = assignment.principal_id
+      role_definition_id = assignment.role_definition_id
+      scope              = assignment.scope
+    }
+  }
+}

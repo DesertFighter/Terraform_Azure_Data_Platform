@@ -18,6 +18,7 @@ resource "azurerm_resource_group" "data_platform" {
   location = var.location
   tags     = local.common_tags
 }
+//Phase 5
 
 resource "azuread_group" "data_platform" {
   for_each = var.entra_groups
@@ -51,4 +52,21 @@ resource "azuread_group_member" "data_platform" {
   member_object_id = azuread_user.data_platform[
     each.key
   ].object_id
+}
+# Phase 6 - Azure RBAC
+
+resource "azurerm_role_assignment" "data_platform" {
+  for_each = var.rbac_assignments
+
+  scope = azurerm_resource_group.data_platform.id
+
+  role_definition_id = data.azurerm_role_definition.rbac[each.key].id
+
+  principal_id = azuread_group.data_platform[
+    each.value.group_key
+  ].object_id
+
+  principal_type = "Group"
+
+  description = "Terraform ${each.value.role_definition_name} access for ${each.value.group_key} in ${var.environment_name}."
 }

@@ -57,3 +57,11 @@ variable "entra_user_password" {
     error_message = "entra_user_password must contain at least 12 characters."
   }
 }
+variable "rbac_assignments" {
+  description = "Azure RBAC assignments for the current environment."
+
+  type = map(object({
+    group_key            = string
+    role_definition_name = string
+  }))
+}
