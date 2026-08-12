@@ -60,7 +60,7 @@ resource "azurerm_role_assignment" "data_platform" {
 
   scope = azurerm_resource_group.data_platform.id
 
-  role_definition_id = data.azurerm_role_definition.rbac[each.key].id
+  role_definition_name = each.value.role_definition_name
 
   principal_id = azuread_group.data_platform[
     each.value.group_key
@@ -69,4 +69,45 @@ resource "azurerm_role_assignment" "data_platform" {
   principal_type = "Group"
 
   description = "Terraform ${each.value.role_definition_name} access for ${each.value.group_key} in ${var.environment_name}."
+}
+# ============================================================
+# Phase 8 - Azure Key Vault and Sensitive Data
+# ============================================================
+
+resource "random_string" "key_vault_suffix" {
+  length  = 5
+  special = false
+  upper   = false
+  numeric = true
+}
+resource "azurerm_key_vault" "data_platform" {
+  name                       = "${var.key_vault_name_prefix}-${random_string.key_vault_suffix.result}"
+  location                   = azurerm_resource_group.data_platform.location
+  resource_group_name        = azurerm_resource_group.data_platform.name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
+  rbac_authorization_enabled = true
+  tags                       = local.common_tags
+}
+
+# Phase 8 - Key Vault RBAC
+
+resource "azurerm_role_assignment" "key_vault_secrets_officer" {
+  scope                = azurerm_key_vault.data_platform.id
+  role_definition_name = "Key Vault Secrets Officer"
+
+  principal_id = azuread_group.data_platform[
+    "platform_admins"
+  ].object_id
+
+  principal_type = "Group"
+}
+# Allow the identity running Terraform to manage Key Vault secrets
+
+resource "azurerm_role_assignment" "current_user_key_vault_secrets_officer" {
+  scope                = azurerm_key_vault.data_platform.id
+  role_definition_name = "Key Vault Secrets Officer"
+
+  principal_id   = data.azurerm_client_config.current.object_id
+  principal_type = "User"
 }

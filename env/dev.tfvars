@@ -1,8 +1,9 @@
-subscription_id  = "976fc750-3dbd-4d0d-916a-729e0f4d6845"
-application_name = "data-platform"
-environment_name = "dev"
-location         = "West US"
-owner            = "data-engineering"
+subscription_id   = "976fc750-3dbd-4d0d-916a-729e0f4d6845"
+application_name  = "data-platform"
+environment_name  = "dev"
+location          = "West US"
+demo_secret_value = "MyTerraformSecret123!"
+owner             = "data-engineering"
 rbac_assignments = {
   data_engineers_contributor = {
     group_key            = "data_engineers"
@@ -24,3 +25,4 @@ rbac_assignments = {
     role_definition_name = "Role Based Access Control Administrator"
   }
 }
+key_vault_name_prefix = "kv-dp-dev"
