@@ -26,3 +26,13 @@ rbac_assignments = {
   }
 }
 key_vault_name_prefix = "kv-dp-dev"
+# ============================================================
+# Phase 9 - Azure Data Lake Storage Gen2
+# ============================================================
+
+adls_storage_account_prefix = "stdp"
+
+adls_containers = [
+  "raw",
+  "processed"
+]

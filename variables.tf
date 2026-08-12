@@ -84,3 +84,16 @@ resource "azurerm_key_vault_secret" "demo" {
     azurerm_role_assignment.current_user_key_vault_secrets_officer
   ]
 }
+# ============================================================
+# Phase 9 - Azure Data Lake Storage Gen2
+# ============================================================
+
+variable "adls_storage_account_prefix" {
+  description = "Prefix used to create the ADLS Gen2 storage account name."
+  type        = string
+}
+
+variable "adls_containers" {
+  description = "ADLS Gen2 filesystems used by the data platform."
+  type        = set(string)
+}

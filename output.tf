@@ -61,3 +61,20 @@ output "key_vault_id" {
 output "key_vault_uri" {
   value = azurerm_key_vault.data_platform.vault_uri
 }
+# ============================================================
+# Phase 9 - ADLS Gen2 Outputs
+# ============================================================
+
+output "adls_storage_account_name" {
+  value = azurerm_storage_account.data_lake.name
+}
+
+output "adls_storage_account_id" {
+  value = azurerm_storage_account.data_lake.id
+}
+
+output "adls_dfs_endpoint" {
+  value = azurerm_storage_account.data_lake.primary_dfs_endpoint
+}
+
+
