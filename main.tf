@@ -111,3 +111,33 @@ resource "azurerm_role_assignment" "current_user_key_vault_secrets_officer" {
   principal_id   = data.azurerm_client_config.current.object_id
   principal_type = "User"
 }
+# ============================================================
+# Phase 9 - Azure Data Lake Storage Gen2
+# ============================================================
+
+resource "random_string" "adls_suffix" {
+  length  = 5
+  special = false
+  upper   = false
+  numeric = true
+}
+
+resource "azurerm_storage_account" "data_lake" {
+  name                = "${var.adls_storage_account_prefix}${random_string.adls_suffix.result}"
+  resource_group_name = azurerm_resource_group.data_platform.name
+  location            = azurerm_resource_group.data_platform.location
+
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  account_kind             = "StorageV2"
+
+  is_hns_enabled = true
+
+  tags = local.common_tags
+}
+resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake" {
+  for_each = var.adls_containers
+
+  name               = each.value
+  storage_account_id = azurerm_storage_account.data_lake.id
+}
