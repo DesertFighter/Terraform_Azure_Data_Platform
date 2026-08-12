@@ -97,3 +97,11 @@ variable "adls_containers" {
   description = "ADLS Gen2 filesystems used by the data platform."
   type        = set(string)
 }
+# ============================================================
+# Phase 10 - Azure Data Factory
+# ============================================================
+
+variable "data_factory_name_prefix" {
+  description = "Prefix used to create the Azure Data Factory name."
+  type        = string
+}

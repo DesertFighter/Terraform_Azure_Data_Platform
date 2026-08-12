@@ -36,3 +36,8 @@ adls_containers = [
   "raw",
   "processed"
 ]
+# ============================================================
+# Phase 10 - Azure Data Factory
+# ============================================================
+
+data_factory_name_prefix = "adf-dp-dev"

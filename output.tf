@@ -78,3 +78,18 @@ output "adls_dfs_endpoint" {
 }
 
 
+# ============================================================
+# Phase 10 - Azure Data Factory
+# ============================================================
+
+output "data_factory_name" {
+  value = azurerm_data_factory.data_platform.name
+}
+
+output "data_factory_id" {
+  value = azurerm_data_factory.data_platform.id
+}
+
+output "data_factory_managed_identity_principal_id" {
+  value = azurerm_data_factory.data_platform.identity[0].principal_id
+}

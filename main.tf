@@ -141,3 +141,32 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake" {
   name               = each.value
   storage_account_id = azurerm_storage_account.data_lake.id
 }
+# ============================================================
+# Phase 10 - Azure Data Factory
+# ============================================================
+
+resource "random_string" "adf_suffix" {
+  length  = 5
+  special = false
+  upper   = false
+  numeric = true
+}
+resource "azurerm_data_factory" "data_platform" {
+  name                = "${var.data_factory_name_prefix}-${random_string.adf_suffix.result}"
+  location            = azurerm_resource_group.data_platform.location
+  resource_group_name = azurerm_resource_group.data_platform.name
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = local.common_tags
+}
+# Give ADF access to the ADLS account
+resource "azurerm_role_assignment" "adf_adls_blob_contributor" {
+  scope                = azurerm_storage_account.data_lake.id
+  role_definition_name = "Storage Blob Data Contributor"
+
+  principal_id   = azurerm_data_factory.data_platform.identity[0].principal_id
+  principal_type = "ServicePrincipal"
+}
