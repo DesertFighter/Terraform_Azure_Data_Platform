@@ -65,3 +65,22 @@ variable "rbac_assignments" {
     role_definition_name = string
   }))
 }
+# Phase 8 - Azure Key Vault
+
+variable "key_vault_name_prefix" {
+  description = "Prefix used to construct the environment-specific Azure Key Vault name."
+  type        = string
+}
+variable "demo_secret_value" {
+  description = "Demo secret used to learn Terraform sensitive data handling."
+  type        = string
+  sensitive   = true
+}
+resource "azurerm_key_vault_secret" "demo" {
+  name         = "demo-secret"
+  value        = var.demo_secret_value
+  key_vault_id = azurerm_key_vault.data_platform.id
+  depends_on = [
+    azurerm_role_assignment.current_user_key_vault_secrets_officer
+  ]
+}

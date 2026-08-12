@@ -48,3 +48,16 @@ output "rbac_assignments" {
     }
   }
 }
+# Phase 8
+
+output "key_vault_name" {
+  value = azurerm_key_vault.data_platform.name
+}
+
+output "key_vault_id" {
+  value = azurerm_key_vault.data_platform.id
+}
+
+output "key_vault_uri" {
+  value = azurerm_key_vault.data_platform.vault_uri
+}
