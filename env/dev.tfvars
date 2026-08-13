@@ -41,3 +41,10 @@ adls_containers = [
 # ============================================================
 
 data_factory_name_prefix = "adf-dp-dev"
+# ============================================================
+# Phase 11 - ADF Managed Networking
+# ============================================================
+
+data_factory_integration_runtime_name = "ir-adf-managed-vnet-dev"
+
+adf_adls_private_endpoint_name = "mpe-adf-adls-dfs-dev"

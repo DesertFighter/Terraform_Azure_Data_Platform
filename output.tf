@@ -93,3 +93,14 @@ output "data_factory_id" {
 output "data_factory_managed_identity_principal_id" {
   value = azurerm_data_factory.data_platform.identity[0].principal_id
 }
+# ============================================================
+# Phase 11 - ADF Managed Networking
+# ============================================================
+
+output "data_factory_integration_runtime_name" {
+  value = azurerm_data_factory_integration_runtime_azure.managed_vnet.name
+}
+
+output "adf_adls_managed_private_endpoint_id" {
+  value = azurerm_data_factory_managed_private_endpoint.adls_dfs.id
+}
