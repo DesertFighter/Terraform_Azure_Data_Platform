@@ -155,6 +155,10 @@ resource "azurerm_data_factory" "data_platform" {
   name                = "${var.data_factory_name_prefix}-${random_string.adf_suffix.result}"
   location            = azurerm_resource_group.data_platform.location
   resource_group_name = azurerm_resource_group.data_platform.name
+  # ============================================================
+  # Phase 11 - ADF Managed Networking
+  managed_virtual_network_enabled = true
+  # ============================================================
 
   identity {
     type = "SystemAssigned"
@@ -169,4 +173,24 @@ resource "azurerm_role_assignment" "adf_adls_blob_contributor" {
 
   principal_id   = azurerm_data_factory.data_platform.identity[0].principal_id
   principal_type = "ServicePrincipal"
+}
+# ============================================================
+# Phase 11 - ADF Managed Networking
+# ============================================================
+
+resource "azurerm_data_factory_integration_runtime_azure" "managed_vnet" {
+  name            = var.data_factory_integration_runtime_name
+  data_factory_id = azurerm_data_factory.data_platform.id
+  location        = "AutoResolve"
+
+  virtual_network_enabled = true
+}
+resource "azurerm_data_factory_managed_private_endpoint" "adls_dfs" {
+  name = var.adf_adls_private_endpoint_name
+
+  data_factory_id = azurerm_data_factory.data_platform.id
+
+  target_resource_id = azurerm_storage_account.data_lake.id
+
+  subresource_name = "dfs"
 }

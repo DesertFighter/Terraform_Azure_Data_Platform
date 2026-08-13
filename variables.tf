@@ -105,3 +105,16 @@ variable "data_factory_name_prefix" {
   description = "Prefix used to create the Azure Data Factory name."
   type        = string
 }
+# ============================================================
+# Phase 11 - ADF Managed Networking
+# ============================================================
+
+variable "data_factory_integration_runtime_name" {
+  description = "Name of the Azure Integration Runtime using the ADF Managed Virtual Network."
+  type        = string
+}
+
+variable "adf_adls_private_endpoint_name" {
+  description = "Name of the ADF managed private endpoint used to reach ADLS Gen2."
+  type        = string
+}
