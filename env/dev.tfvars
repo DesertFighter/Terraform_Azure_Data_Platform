@@ -48,3 +48,10 @@ data_factory_name_prefix = "adf-dp-dev"
 data_factory_integration_runtime_name = "ir-adf-managed-vnet-dev"
 
 adf_adls_private_endpoint_name = "mpe-adf-adls-dfs-dev"
+# ============================================================
+# Phase 12 - Azure SQL Database
+# ============================================================
+
+sql_server_name_prefix        = "sql-dp-dev"
+sql_database_name             = "sqldb-data-platform-dev"
+adf_sql_private_endpoint_name = "mpe-adf-sql-dev"

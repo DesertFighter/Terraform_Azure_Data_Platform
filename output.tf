@@ -104,3 +104,22 @@ output "data_factory_integration_runtime_name" {
 output "adf_adls_managed_private_endpoint_id" {
   value = azurerm_data_factory_managed_private_endpoint.adls_dfs.id
 }
+# ============================================================
+# Phase 12 - Azure SQL Database
+# ============================================================
+
+output "sql_server_name" {
+  value = azurerm_mssql_server.data_platform.name
+}
+
+output "sql_server_fqdn" {
+  value = azurerm_mssql_server.data_platform.fully_qualified_domain_name
+}
+
+output "sql_database_name" {
+  value = azurerm_mssql_database.data_platform.name
+}
+
+output "adf_sql_managed_private_endpoint_id" {
+  value = azurerm_data_factory_managed_private_endpoint.azure_sql.id
+}

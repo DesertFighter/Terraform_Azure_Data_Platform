@@ -194,3 +194,52 @@ resource "azurerm_data_factory_managed_private_endpoint" "adls_dfs" {
 
   subresource_name = "dfs"
 }
+
+# ============================================================
+# Phase 12 - Azure SQL Database
+# ============================================================
+
+resource "random_string" "sql_suffix" {
+  length  = 5
+  special = false
+  upper   = false
+  numeric = true
+}
+
+resource "azurerm_mssql_server" "data_platform" {
+  name                = "${var.sql_server_name_prefix}-${random_string.sql_suffix.result}"
+  resource_group_name = azurerm_resource_group.data_platform.name
+  location            = azurerm_resource_group.data_platform.location
+
+  version             = "12.0"
+  minimum_tls_version = "1.2"
+
+  public_network_access_enabled = true
+
+  azuread_administrator {
+    login_username              = azuread_group.data_platform["platform_admins"].display_name
+    object_id                   = azuread_group.data_platform["platform_admins"].object_id
+    tenant_id                   = data.azurerm_client_config.current.tenant_id
+    azuread_authentication_only = true
+  }
+
+  tags = local.common_tags
+}
+
+resource "azurerm_mssql_database" "data_platform" {
+  name      = var.sql_database_name
+  server_id = azurerm_mssql_server.data_platform.id
+
+  sku_name = "Basic"
+
+  tags = local.common_tags
+}
+
+resource "azurerm_data_factory_managed_private_endpoint" "azure_sql" {
+  name = var.adf_sql_private_endpoint_name
+
+  data_factory_id = azurerm_data_factory.data_platform.id
+
+  target_resource_id = azurerm_mssql_server.data_platform.id
+  subresource_name   = "sqlServer"
+}
