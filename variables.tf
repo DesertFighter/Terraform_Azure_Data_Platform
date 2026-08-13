@@ -118,3 +118,21 @@ variable "adf_adls_private_endpoint_name" {
   description = "Name of the ADF managed private endpoint used to reach ADLS Gen2."
   type        = string
 }
+# ============================================================
+# Phase 12 - Azure SQL Database
+# ============================================================
+
+variable "sql_server_name_prefix" {
+  description = "Prefix used to create the Azure SQL logical server name."
+  type        = string
+}
+
+variable "sql_database_name" {
+  description = "Name of the Azure SQL Database."
+  type        = string
+}
+
+variable "adf_sql_private_endpoint_name" {
+  description = "Name of the ADF managed private endpoint used to reach Azure SQL."
+  type        = string
+}
